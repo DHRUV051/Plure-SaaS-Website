@@ -1,20 +1,21 @@
-import { getAuthUserDetails } from "@/lib/queries"
+import { getAuthUserDetails } from "@/lib/queries";
 
-type Props={
-    id: string,
-    type: 'agency' | 'subaccount',
-}
+type Props = {
+  id: string;
+  type: "agency" | "subaccount";
+};
 
-const index = async({id,type}:Props) => {
-    
-    const user = await getAuthUserDetails();
-    if(!user) return null;
+const Sidebar = async ({ id, type }: Props) => {
+  const user = await getAuthUserDetails();
+  if (!user) return null;
 
-    return (
-    <div>   
+  if (!user.Agency) return;
+  const details =
+    type === "agency"
+      ? user?.Agency
+      : user.Agency.SubAccount.find((subaccount) => subaccount.id === id);
 
-    </div>
-  )
-}
+  return <div>hi</div>;
+};
 
-export default index
+export default Sidebar;
