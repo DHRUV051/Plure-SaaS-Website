@@ -30,7 +30,6 @@ import { Button } from '../ui/button'
 import Loading from '../global/loading'
 import { saveActivityLogsNotification, sendInvitation } from '@/lib/queries'
 import { useToast } from '../ui/use-toast'
-import {useRouter} from "next/navigation"
 
 interface SendInvitationProps {
   agencyId: string
@@ -38,7 +37,6 @@ interface SendInvitationProps {
 
 const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
   const { toast } = useToast()
-  const router = useRouter()
   const userDataSchema = z.object({
     email: z.string().email(),
     role: z.enum(['AGENCY_ADMIN', 'SUBACCOUNT_USER', 'SUBACCOUNT_GUEST']),
@@ -61,12 +59,10 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
         description: `Invited ${res.email}`,
         subaccountId: undefined,
       })
-      
       toast({
         title: 'Success',
         description: 'Created and sent invitation',
       })
-      return router.refresh()
     } catch (error) {
       console.log(error)
       toast({
@@ -74,7 +70,6 @@ const SendInvitation: React.FC<SendInvitationProps> = ({ agencyId }) => {
         title: 'Oppse!',
         description: 'Could not send invitation',
       })
-      return router.refresh()
     }
   }
 

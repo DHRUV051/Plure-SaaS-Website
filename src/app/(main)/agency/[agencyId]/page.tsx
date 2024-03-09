@@ -1,3 +1,4 @@
+'use client';
 const page = ({ params }: { params: { agencyId: string } }) => {
   return(
       

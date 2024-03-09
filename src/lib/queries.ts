@@ -178,36 +178,34 @@ export const updateAgencyDetails = async (
   agencyId: string,
   agencyDetails: Partial<Agency>
 ) => {
-  const respone = await db.agency.update({
+  const response = await db.agency.update({
     where: { id: agencyId },
     data: { ...agencyDetails },
   });
-  return respone;
+  return response;
 };
 
 export const deleteAgency = async (agencyId: string) => {
-  const response = await db.agency.delete({
-    where: { id: agencyId },
-  });
-
+  const response = await db.agency.delete({ where: { id: agencyId } });
   return response;
 };
 
 export const initUser = async (newUser: Partial<User>) => {
   const user = await currentUser();
   if (!user) return;
+
   const userData = await db.user.upsert({
-    where: { email: user.emailAddresses[0].emailAddress },
+    where: {
+      email: user.emailAddresses[0].emailAddress,
+    },
+    update: newUser,
     create: {
       id: user.id,
       avatarUrl: user.imageUrl,
-      name: `${user.firstName} ${user.lastName}`,
       email: user.emailAddresses[0].emailAddress,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      name: `${user.firstName} ${user.lastName}`,
       role: newUser.role || "SUBACCOUNT_USER",
     },
-    update: newUser,
   });
 
   await clerkClient.users.updateUserMetadata(user.id, {
@@ -291,7 +289,6 @@ export const getNotificationAndUser = async (agencyId: string) => {
 
 export const upsertSubAccount = async (subAccount: SubAccount) => {
   if (!subAccount.companyEmail) return null;
-
   const agencyOwner = await db.user.findFirst({
     where: {
       Agency: {
@@ -300,14 +297,10 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
       role: "AGENCY_OWNER",
     },
   });
-
-  if (!agencyOwner) return console.log("Error Could not create subAccount");
-
+  if (!agencyOwner) return console.log("🔴Erorr could not create subaccount");
   const permissionId = v4();
   const response = await db.subAccount.upsert({
-    where: {
-      id: subAccount.id,
-    },
+    where: { id: subAccount.id },
     update: subAccount,
     create: {
       ...subAccount,
@@ -371,7 +364,6 @@ export const upsertSubAccount = async (subAccount: SubAccount) => {
       },
     },
   });
-
   return response;
 };
 
@@ -460,21 +452,12 @@ export const getUser = async (id: string) => {
   return user;
 };
 
-export const removePermission = async (userId: string) => {
-  const response = await db.permissions.deleteMany({ where: { id: userId } });
-  return response;
-};
-
-export const sendInvitation = async (
-  role: Role,
-  email: string,
-  agencyId: string
-) => {
-  const resposne = await db.invitation.create({
-    data: { email, agencyId, role },
-  });
-
+export const sendInvitation = async (role: Role, email: string, agencyId: string) => {
   try {
+    const response = await db.invitation.create({
+      data: { email, agencyId, role },
+    });
+
     const invitation = await clerkClient.invitations.createInvitation({
       emailAddress: email,
       redirectUrl: process.env.NEXT_PUBLIC_URL,
@@ -483,10 +466,10 @@ export const sendInvitation = async (
         role,
       },
     });
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
 
-  return resposne;
+    return response;
+  } catch (error) {
+    console.error('Error sending invitation:', error);
+    throw error; // Rethrow the error to handle it at a higher level if needed
+  }
 };

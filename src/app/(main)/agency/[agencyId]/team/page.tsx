@@ -4,8 +4,7 @@ import DataTable from './data-table'
 import { Plus } from 'lucide-react'
 import { currentUser } from '@clerk/nextjs'
 import { columns } from './columns'
-import SendInvitation from '@/components/forms/send-invitation.tsx'
-
+import SendInvitation from '@/components/forms/send-invitation'
 
 type Props = {
   params: { agencyId: string }
@@ -38,7 +37,6 @@ const TeamPage = async ({ params }: Props) => {
   if (!agencyDetails) return
 
   return (
-    
     <DataTable
       actionButtonText={
         <>
