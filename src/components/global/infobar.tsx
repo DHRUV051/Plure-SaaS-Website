@@ -19,23 +19,23 @@ import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { ModeToggle } from "./mode-toggle";
 
 type Props = {
-  notification: NotificationWithUser | [];
+  notifications: NotificationWithUser | [];
   role?: Role;
   className?: string;
   subAccountId?: string;
 };
 
-const InfoBar = ({ notification, subAccountId, className, role }: Props) => {
-  const [allNotification, setAllNotification] = useState(notification);
+const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
+  const [allNotification, setAllNotification] = useState(notifications);
   const [showAll, setShowAll] = useState(true);
 
   const handleClick = () => {
     if (!showAll) {
-      setAllNotification(notification);
+      setAllNotification(notifications);
     } else {
-      if (notification?.length !== 0) {
+      if (notifications?.length !== 0) {
         setAllNotification(
-          notification?.filter((item) => item.subAccountId === subAccountId) ??
+          notifications?.filter((item) => item.subAccountId === subAccountId) ??
             []
         );
       }
