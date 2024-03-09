@@ -1,48 +1,71 @@
-import { getAuthUserDetails } from "@/lib/queries";
-import MenuOptions from "./menu-options";
+import { getAuthUserDetails } from '@/lib/queries'
+import { off } from 'process'
+import React from 'react'
+import MenuOptions from './menu-options'
 
 type Props = {
-  id: string;
-  type: "agency" | "subaccount";
-};
+  id: string
+  type: 'agency' | 'subaccount'
+}
 
 const Sidebar = async ({ id, type }: Props) => {
-  const user = await getAuthUserDetails();
-  if (!user) return null;
+  const user = await getAuthUserDetails()
+  if (!user) return null
 
-  if (!user.Agency) return;
+  if (!user.Agency) return
+
   const details =
-    type === "agency"
+    type === 'agency'
       ? user?.Agency
-      : user.Agency.SubAccount.find((subaccount) => subaccount.id === id);
+      : user?.Agency.SubAccount.find((subaccount) => subaccount.id === id)
 
-  const isWhiteLabeledAgency = user.Agency.whiteLabel;
-  if (!details) return;
+  const isWhiteLabeledAgency = user.Agency.whiteLabel
+  if (!details) return
 
-  let sideBarLogo = user.Agency.agencyLogo || "/assetss/plura-logo.svg";
+  let sideBarLogo = user.Agency.agencyLogo || '/assets/plura-logo.svg'
 
-  if (isWhiteLabeledAgency) {
-    if (type === "subaccount") {
+  if (!isWhiteLabeledAgency) {
+    if (type === 'subaccount') {
       sideBarLogo =
         user?.Agency.SubAccount.find((subaccount) => subaccount.id === id)
-          ?.subAccountLogo || user.Agency.agencyLogo;
+          ?.subAccountLogo || user.Agency.agencyLogo
     }
   }
 
   const sidebarOpt =
-    type === "agency"
+    type === 'agency'
       ? user.Agency.SidebarOption || []
-      : user.Agency.SubAccount.find((subaccount) => subaccount.id)
-          ?.SidebarOption || [];
+      : user.Agency.SubAccount.find((subaccount) => subaccount.id === id)
+          ?.SidebarOption || []
 
-  const subaccounts = user.Agency.SubAccount.filter((subaccount) => user.Permissions.find(permission => permission.subAccountId === subaccount.id && permission.access ))
+  const subaccounts = user.Agency.SubAccount.filter((subaccount) =>
+    user.Permissions.find(
+      (permission) =>
+        permission.subAccountId === subaccount.id && permission.access
+    )
+  )
 
-  return <>
-      <MenuOptions defaultOpen={true} details={details} id={id} sidebarLogo={sideBarLogo} sidebarOpt={sidebarOpt} subAccounts={subaccounts} user={user} />
-      <MenuOptions details={details} id={id} sidebarLogo={sideBarLogo} sidebarOpt={sidebarOpt} subAccounts={subaccounts} user={user} />
+  return (
+    <>
+      <MenuOptions
+        defaultOpen={true}
+        details={details}
+        id={id}
+        sidebarLogo={sideBarLogo}
+        sidebarOpt={sidebarOpt}
+        subAccounts={subaccounts}
+        user={user}
+      />
+      <MenuOptions
+        details={details}
+        id={id}
+        sidebarLogo={sideBarLogo}
+        sidebarOpt={sidebarOpt}
+        subAccounts={subaccounts}
+        user={user}
+      />
+    </>
+  )
+}
 
-      
-  </>
-};
-
-export default Sidebar;
+export default Sidebar

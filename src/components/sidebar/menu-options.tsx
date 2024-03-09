@@ -102,22 +102,17 @@ const MenuOptions = ({
               >
                 <div className="flex items-center text-left gap-2">
                   <Compass />
-                  <div className="flex flex-col">
-                    {details.name}
-                    <span className="text-muted-foreground">
-                      {details.address}
-                    </span>
-                  </div>
+                  <div className="flex flex-col">{details.name}</div>
                 </div>
                 <div>
                   <ChevronsUpDown size={16} className="text-muted-foreground" />
                 </div>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-80 h-80 mt-4 z-[200]">
-              <Command className="rounded-lg">
+            <PopoverContent className="w-80 h-80 mt-4 z-[200] overflow-hidden">
+              <Command className="rounded-lg ">
                 <CommandInput placeholder="Search Accounts..." />
-                <CommandList className="pb-16">
+                <CommandList className="pb-12">
                   <CommandEmpty> No results found</CommandEmpty>
                   {(user?.role === "AGENCY_OWNER" ||
                     user?.role === "AGENCY_ADMIN") &&
@@ -140,7 +135,7 @@ const MenuOptions = ({
                               <div className="flex flex-col flex-1">
                                 {user?.Agency?.name}
                                 <span className="text-muted-foreground">
-                                  {user?.Agency?.address}
+                                  {user?.Agency?.city}
                                 </span>
                               </div>
                             </Link>
