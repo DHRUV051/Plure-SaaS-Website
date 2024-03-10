@@ -26,15 +26,15 @@ type Props = {
 };
 
 const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
-  const [allNotification, setAllNotification] = useState(notifications);
+  const [allNotifications, setAllNotifications] = useState(notifications);
   const [showAll, setShowAll] = useState(true);
 
   const handleClick = () => {
     if (!showAll) {
-      setAllNotification(notifications);
+      setAllNotifications(notifications);
     } else {
       if (notifications?.length !== 0) {
-        setAllNotification(
+        setAllNotifications(
           notifications?.filter((item) => item.subAccountId === subAccountId) ??
             []
         );
@@ -51,7 +51,7 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
           className
         )}
       >
-        <div className="flex items-center gap-2 ml-auto">
+        <div className=" flex items-center gap-2 ml-auto">
           <UserButton afterSignOutUrl="/" />
           <Sheet>
             <SheetTrigger>
@@ -59,25 +59,25 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
                 <Bell size={17} />
               </div>
             </SheetTrigger>
-            <SheetContent className="mt-4 mr-4 pr-4 flex flex-col">
+            <SheetContent className="overflow-y-auto">
               <SheetHeader className="text-left">
                 <SheetTitle>Notifications</SheetTitle>
                 <SheetDescription>
-                  {(role === "AGENCY_OWNER" || role === "AGENCY_ADMIN") && (
+                  {(role === "AGENCY_ADMIN" || role === "AGENCY_OWNER") && (
                     <Card className="flex items-center justify-between p-4">
                       Current Subaccount
-                      <Switch onChangeCapture={handleClick} />
+                      <Switch onCheckedChange={handleClick} />
                     </Card>
                   )}
                 </SheetDescription>
               </SheetHeader>
-              {allNotification?.map((notification) => (
+              {allNotifications?.map((notification) => (
                 <div
                   key={notification.id}
-                  className="mb-2 overflow-x-scroll text-ellipsis flex flex-col gap-y-2"
+                  className="flex flex-col gap-y-2 mb-4 overflow-auto text-ellipsis"
                 >
-                  <div>
-                    <Avatar>
+                  <div className="flex gap-2">
+                    <Avatar className="flex">
                       <AvatarImage
                         src={notification.User.avatarUrl}
                         alt="Profile Picture"
@@ -86,32 +86,37 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
                         {notification.User.name.slice(0, 2).toUpperCase()}
                       </AvatarFallback>
                     </Avatar>
-                    <div className="flex flex-col ">
-                      <p>
-                        <span className="font-bold ">
-                          {notification.notification.split("|")[0]}
-                        </span>
-                        <span className="text-muted-foreground ">
+                    <div>
+                      <p className="space-y-1">
+                        <div className="flex justify-between">
+                          <p className="font-bold w-[200px]">
+                            {notification.notification.split("|")[0]}
+                          </p>
+                          <small className="pl-[20px] mt-[6px] text-xs text-muted-foreground">
+                            {new Date(
+                              notification.createdAt
+                            ).toLocaleDateString()}
+                          </small>
+                        </div>
+                        <p className="text-muted-foreground">
                           {notification.notification.split("|")[1]}
-                        </span>
-                        <span className="font-bold ">
-                          {notification.notification.split("|")[2]}
-                        </span>
+                        </p>
+                        <p className="text-muted-foreground">
+                        {notification.notification.split("|")[2]}
+                        </p>
                       </p>
-                      <small className="text-xs text-muted-foreground ">
-                        {new Date(notification.createdAt).toDateString()}
-                      </small>
                     </div>
                   </div>
                 </div>
               ))}
-              {
-                allNotification?.length === 0 && (
-                    <div className="flex items-center justify-center mb-4 text-muted-foreground">
-                        You Have No Notifications
-                    </div>
-                )
-              }
+              {allNotifications?.length === 0 && (
+                <div
+                  className="flex items-center justify-center text-muted-foreground"
+                  mb-4
+                >
+                  You have no notifications
+                </div>
+              )}
             </SheetContent>
           </Sheet>
           <ModeToggle />
