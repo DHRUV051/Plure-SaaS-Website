@@ -1,7 +1,13 @@
 "use client";
 
 import { useModal } from "@/providers/modal-provider";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 type Props = {
   title: string;
@@ -12,15 +18,17 @@ type Props = {
 
 const CustomeModal = ({ title, subheading, children, defaultOpen }: Props) => {
   const { isOpen, setClose } = useModal();
-  return <Dialog open={isOpen || defaultOpen} onOpenChange={setClose}>
-    <DialogContent className="overflow-auto md:max-h-[700px] md:h-fit h-screen bg-card">
+  return (
+    <Dialog open={isOpen || defaultOpen} onOpenChange={setClose}>
+      <DialogContent className="overflow-auto md:max-h-[700px] md:h-fit h-screen bg-card">
         <DialogHeader className="pt-8 text-left">
-            <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
-            <DialogDescription>{subheading}</DialogDescription>
-            {children}
+          <DialogTitle className="text-2xl font-bold">{title}</DialogTitle>
+          <DialogDescription>{subheading}</DialogDescription>
+          {children}
         </DialogHeader>
-    </DialogContent>
-  </Dialog>;
+      </DialogContent>
+    </Dialog>
+  );
 };
 
 export default CustomeModal;

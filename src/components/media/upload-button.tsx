@@ -15,9 +15,14 @@ function MediaUploadButton({ subaccountId }: Props) {
   return (
     <Button
       onClick={() => {
-        setOpen(<CustomeModal title="Upload Media" subheading="Upload a file to your media bucket">
+        setOpen(
+          <CustomeModal
+            title="Upload Media"
+            subheading="Upload a file to your media bucket"
+          >
             <UploadMediaForm subaccountId={subaccountId}></UploadMediaForm>
-        </CustomeModal>);
+          </CustomeModal>
+        );
       }}
     >
       Upload
