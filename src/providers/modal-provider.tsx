@@ -1,5 +1,6 @@
 "use client";
 
+import { TicketDetails } from "@/lib/types";
 import { Agency, User } from "@prisma/client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
@@ -8,6 +9,7 @@ interface ModelProviderProps {
 }
 
 export type ModelData = {
+  ticket?: TicketDetails[0];  
   user?: User;
   agency?: Agency;
 };

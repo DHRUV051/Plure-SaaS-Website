@@ -31,7 +31,7 @@ const PipelinePage = async ({ params }: Props) => {
   )) as LaneDetail[];
 
   return (
-    <Tabs defaultValue="view" className="w-full">
+    <Tabs defaultValue="view" className="w-full overflow-auto scrollbar">
       <TabsList className="bg-transparent borer-b-2 h-16 w-full justify-between mb-4">
         <PipelineInfoBar
           pipelineId={params.pipelineId}
@@ -43,7 +43,16 @@ const PipelinePage = async ({ params }: Props) => {
           <TabsTrigger value="settings">Settings</TabsTrigger>
         </div>
       </TabsList>
-      <TabsContent value="view"><PipelineView /> </TabsContent>
+      <TabsContent value="view">
+        <PipelineView
+          lanes={lanes}
+          pipelineId={params.pipelineId}
+          subaccountId={params.subaccountId}
+          pipelineDetails={pipelineDetails}
+          updateLanesOrder={updateLanesOrder}
+          updateTicketOrder={updateTicketsOrder}
+        />{" "}
+      </TabsContent>
       <TabsContent value="settings">
         <PipelineSettings
           pipelineId={params.pipelineId}

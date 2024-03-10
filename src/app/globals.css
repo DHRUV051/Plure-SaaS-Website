@@ -51,6 +51,10 @@ B (255 */
     --radius: 0.5rem;
   }
 
+  .scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .dark {
     /* Name: custom color palette
        Author: Ilias Ism

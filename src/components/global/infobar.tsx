@@ -59,7 +59,7 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
                 <Bell size={17} />
               </div>
             </SheetTrigger>
-            <SheetContent className="overflow-y-auto">
+            <SheetContent className="overflow-y-auto scollbar">
               <SheetHeader className="text-left">
                 <SheetTitle>Notifications</SheetTitle>
                 <SheetDescription>
@@ -74,7 +74,7 @@ const InfoBar = ({ notifications, subAccountId, className, role }: Props) => {
               {allNotifications?.map((notification) => (
                 <div
                   key={notification.id}
-                  className="flex flex-col gap-y-2 mb-4 overflow-auto text-ellipsis"
+                  className="flex flex-col gap-y-2 mb-4 overflow-auto scrollbar text-ellipsis"
                 >
                   <div className="flex gap-2">
                     <Avatar className="flex">
