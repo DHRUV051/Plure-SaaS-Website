@@ -23,7 +23,7 @@ const CraeteContactButton = ({ subaccountId }: Props) => {
     );
   };
 
-  return <Button onClick={handleCreateContact}>Create Contact</Button>;
+  return <Button className="mt-2 w-fit ml-5 md:ml-0" onClick={handleCreateContact}>Create Contact</Button>;
 };
 
 export default CraeteContactButton;
