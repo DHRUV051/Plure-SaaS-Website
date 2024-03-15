@@ -1,7 +1,7 @@
 "use client";
 
 import { TicketDetails } from "@/lib/types";
-import { Agency, User } from "@prisma/client";
+import { Agency, Contact, User } from "@prisma/client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface ModelProviderProps {
@@ -12,6 +12,7 @@ export type ModelData = {
   ticket?: TicketDetails[0];  
   user?: User;
   agency?: Agency;
+  contact? : Contact
 };
 
 type ModeContextType = {
@@ -19,6 +20,7 @@ type ModeContextType = {
   isOpen: boolean;
   setOpen: (model: React.ReactNode, fetchData?: () => Promise<any>) => void;
   setClose: () => void;
+ 
 };
 
 export const ModelContext = createContext<ModeContextType>({
@@ -26,6 +28,7 @@ export const ModelContext = createContext<ModeContextType>({
   isOpen: false,
   setOpen: (modal: React.ReactNode, fetchData?: () => Promise<any>) => {},
   setClose: () => {},
+
 });
 
 const ModelProvider: React.FC<ModelProviderProps> = ({ children }) => {

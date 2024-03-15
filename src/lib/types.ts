@@ -63,14 +63,14 @@ export type GetMediaFiles = Prisma.PromiseReturnType<typeof getMedia>;
 
 export type CreateMediaType = Prisma.MediaCreateWithoutSubaccountInput;
 
-export type TicketAndTage = Ticket & {
+export type TicketAndTags = Ticket & {
   Tags: Tag[];
   Assigned: User | null;
   Customer: Contact | null;
 };
 
 export type LaneDetail = Lane & {
-  Tickets: TicketAndTage[];
+  Tickets: TicketAndTags[];
 };
 
 export const CreatePipelineFormSchema = z.object({
@@ -83,10 +83,6 @@ export const CreateFunnelFormSchema = z.object({
   subDomainName: z.string().optional(),
   favicon: z.string().optional(),
 });
-
-export type PiplineDetailsWithLanesCardsTagsTickets = Prisma.PromiseReturnType<
-  typeof getPipelineDetails
->;
 
 export const LaneFormSchema = z.object({
   name: z.string().min(1),
@@ -108,4 +104,11 @@ export type TicketDetails = Prisma.PromiseReturnType<
   typeof _getTicketWithAllRelations
 >;
 
+export type PipelineDetailsWithLanesCardsTagsTickets = Prisma.PromiseReturnType<
+  typeof getPipelineDetails
+>;
 
+export const ContactUserFormSchema = z.object({
+  name: z.string().min(1, 'Required'),
+  email: z.string().email(),
+})

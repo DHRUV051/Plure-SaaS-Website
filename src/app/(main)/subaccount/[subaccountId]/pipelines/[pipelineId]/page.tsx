@@ -50,8 +50,8 @@ const PipelinePage = async ({ params }: Props) => {
           subaccountId={params.subaccountId}
           pipelineDetails={pipelineDetails}
           updateLanesOrder={updateLanesOrder}
-          updateTicketOrder={updateTicketsOrder}
-        />{" "}
+          updateTicketsOrder={updateTicketsOrder}
+        />
       </TabsContent>
       <TabsContent value="settings">
         <PipelineSettings
