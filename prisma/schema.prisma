@@ -1,3 +1,4 @@
+
 datasource db {
   provider     = "mysql"
   url          = env("DATABASE_URL")
@@ -181,7 +182,7 @@ model Ticket {
   laneId      String
   order       Int      @default(0)
   Lane        Lane     @relation(fields: [laneId], references: [id], onDelete: Cascade)
-  value       Decimal? 
+  value       Decimal?
   description String?
   Tags        Tag[]
 
@@ -396,8 +397,8 @@ model Notification {
 }
 
 enum Plan {
-  price_1OYxkqFj9oKEERu1NbKUxXxN
-  price_1OYxkqFj9oKEERu1KfJGWxgN
+  price_1OvBieSESqRNQY9bP7h5ivm1
+  price_1OvBieSESqRNQY9bib93spAZ
 }
 
 model Subscription {
